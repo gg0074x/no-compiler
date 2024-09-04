@@ -1,0 +1,46 @@
+[package]
+name = "no-compiler"
+version = "0.1.0"
+authors = ["Chiwa <chiwuabox@gmail.com>"]
+description = "A no compiler to compile binary code directly"
+edition = "2021"
+repository = "https://github.com/gg0074x/no-compiler"
+license = "MIT"
+publish = false
+
+[package.metadata.wix]
+upgrade-guid = "93BF00E2-1F74-4C2C-9A9C-07EC43F01ECD"
+path-guid = "149CDEB1-21F2-4098-86DD-63238EAFF2D5"
+license = false
+eula = false
+
+[[bin]]
+name = "noc"
+path = "./src/main.rs"
+
+[dependencies]
+clap = { version = "4.5.16", features = ["derive"] }
+
+# The profile that 'cargo dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
+
+# Config for 'cargo dist'
+[workspace.metadata.dist]
+# The preferred cargo-dist version to use in CI (Cargo.toml SemVer syntax)
+cargo-dist-version = "0.19.1"
+# CI backends to support
+ci = "github"
+# The installers to generate for each app
+installers = ["shell", "powershell", "msi"]
+# Target platforms to build apps for (Rust target-triple syntax)
+targets = ["aarch64-apple-darwin", "x86_64-apple-darwin", "x86_64-unknown-linux-gnu", "x86_64-pc-windows-msvc"]
+# Publish jobs to run in CI
+pr-run-mode = "plan"
+# Path that installers should place binaries in
+install-path = "CARGO_HOME"
+# Whether to install an updater program
+install-updater = false
+# Whether to consider the binaries in a package for distribution (defaults true)
+dist = true

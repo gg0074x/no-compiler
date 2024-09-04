@@ -1,0 +1,5 @@
+allow-branch = ["master", "dev"]
+publish = false
+pre-release-commit-message = "chore: Release no-compiler version {{version}}"
+tag-message = "chore: Release no-compiler version {{version}}"
+tag-name = "v{{version}}"
