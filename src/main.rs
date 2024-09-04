@@ -14,7 +14,12 @@ use clap::Parser;
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
-    #[arg(value_name = "FILE PATH", index = 1, help = "Input file to compile", required = true)]
+    #[arg(
+        value_name = "FILE PATH",
+        index = 1,
+        help = "Input file to compile",
+        required = true
+    )]
     path: Vec<String>,
 
     #[arg(short, long, help = "Output file path")]
@@ -35,9 +40,9 @@ fn main() {
     let output: String = args.output.unwrap_or(String::from("a"));
     let format: String = args.format.unwrap_or(String::from("out"));
 
-    if args.decompile{
+    if args.decompile {
         decompile(&paths, &output, &format);
-    }else {
+    } else {
         compile(&paths, &output, &format);
     }
 }
@@ -69,7 +74,7 @@ fn decompile(paths: &[String], output: &str, format: &str) {
 
         let mut decompiled: Vec<u8> = vec![];
         for b in code {
-            for c in format!("{b:08b}").chars(){
+            for c in format!("{b:08b}").chars() {
                 decompiled.push(c as u8);
             }
             decompiled.push(b' ');
@@ -88,6 +93,9 @@ fn make_bytes(code: &str) -> Vec<u8> {
             bytes.push(Byte::from_bits(&Bits::from_vec(buff)).value);
             buff = vec![];
         } else {
+            if chars.get(c).is_none() {
+                return bytes;
+            }
             match chars.get(c).expect("Cannot index chars") {
                 '1' | '0' => {
                     buff.push(
