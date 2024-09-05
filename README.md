@@ -10,6 +10,13 @@ No compiler is a revolutionary and complex tool that **doesn't** compile bits fr
 - Decompile any file into binary code
 - Flex your ability to code in a more low level way than assembly
 
+## 🗂️ Examples
+
+| input                                     | decompilation                                                  | compiled                                                              | diff                                                                        |
+|-------------------------------------------|----------------------------------------------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| ![input cat](./examples/cat/input_cat.jpg) | [decompiled cat](./examples/cat/cat.nc)                         | ![compiled cat](./examples/cat/compiled_cat.jpg)                       | ![diff cat](./examples/cat/diff_cat.jpg)                                     |
+| This is the base image used for the test. | Here is the binary code of the image, with some modifications. | This is the compiled modified file, some pixels are broken/misplaced. | This a diff generated image that shows in red all modified bytes or pixels. |
+
 ## 💾 Installation
 
 Download from [releases](https://github.com/gg0074x/no-compiler/releases)
