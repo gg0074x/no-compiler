@@ -1,85 +1,80 @@
 use std::{
     fs::{read, read_to_string, File},
     io::Write,
+    path::PathBuf,
     vec,
 };
+
+mod args;
 mod bandb;
 
+use args::{Args, Commands};
 use bandb::{bits, byte};
 use bits::Bits;
 use byte::Byte;
 
 use clap::Parser;
 
-#[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
-struct Args {
-    #[arg(
-        value_name = "FILE PATH",
-        index = 1,
-        help = "Input file to compile",
-        required = true
-    )]
-    path: Vec<String>,
-
-    #[arg(short, long, help = "Output file path")]
-    output: Option<String>,
-
-    #[arg(short, long, help = "File extension")]
-    format: Option<String>,
-
-    #[arg(long = "decomp", help = "Decompile input file")]
-    decompile: bool,
-}
-
 fn main() {
     let args: Args = Args::parse();
 
-    let paths: Vec<String> = args.path;
+    let format = args.format.as_deref().unwrap_or("out");
 
-    let output: String = args.output.unwrap_or(String::from("a"));
-    let format: String = args.format.unwrap_or(String::from("out"));
-
-    if args.decompile {
-        decompile(&paths, &output, &format);
-    } else {
-        compile(&paths, &output, &format);
+    match args.cmd {
+        Commands::Compile { files } => compile(&files, format),
+        Commands::Decompile { files } => decompile(&files, format),
     }
 }
 
-fn compile(paths: &[String], output: &str, format: &str) {
-    for (i, path) in paths.iter().enumerate() {
-        let code: String = read_to_string(path).expect("Cannot read file as string");
+fn compile(paths: &[PathBuf], format: &str) {
+    let curr_dir = std::env::current_dir().expect("Cannot get current path");
+    for path in paths {
+        let mut file = curr_dir.clone();
+        let file_ext = path
+            .extension()
+            .map(|n| n.to_str().unwrap())
+            .expect("Cannot get extension of file");
+        let file_name = path
+            .file_name()
+            .map(|n| n.to_str().unwrap().replace(file_ext, ""))
+            .expect("Cannot get file name of file");
+        let code = read_to_string(path).expect("Cannot read file as string");
 
-        let bytes: Vec<u8> = make_bytes(&code);
-        let mut file_name: String = format!("{output}{i}.{format}");
-        if i == 0 {
-            file_name = format!("{output}.{format}");
-        }
-        let mut file: File = File::create(file_name).expect("Cannot create file");
+        let bytes = make_bytes(&code);
+        file.set_file_name(file_name);
+        file.set_file_name(format);
+        let mut file = File::create(file).expect("Cannot create file");
 
-        let _written = file.write(&bytes).expect("Bytes cannot be written");
+        let _ = file.write(&bytes).expect("Bytes cannot be written");
     }
 }
 
-fn decompile(paths: &[String], output: &str, format: &str) {
-    for (i, path) in paths.iter().enumerate() {
-        let code: Vec<u8> = read(path).expect("Cannot read file");
+fn decompile(paths: &[PathBuf], format: &str) {
+    let curr_dir = std::env::current_dir().expect("Cannot get current path");
+    for path in paths {
+        let mut file = curr_dir.clone();
+        let file_ext = path
+            .extension()
+            .map(|n| n.to_str().unwrap())
+            .expect("Cannot get extension of file");
+        let file_name = path
+            .file_name()
+            .map(|n| n.to_str().unwrap().replace(file_ext, ""))
+            .expect("Cannot get file name of file");
+        let code = read(path).expect("Cannot read file");
 
-        let mut file_name: String = format!("{output}{i}.{format}");
-        if i == 0 {
-            file_name = format!("{output}.{format}");
-        }
-        let mut file: File = File::create(file_name).expect("Cannot create file");
+        file.set_file_name(file_name);
+        file.set_file_name(format);
+        let mut file = File::create(file).expect("Cannot create file");
 
-        let mut decompiled: Vec<u8> = vec![];
+        let mut decompiled = vec![];
         for b in code {
             for c in format!("{b:08b}").chars() {
                 decompiled.push(c as u8);
             }
             decompiled.push(b' ');
         }
-        let _written = file.write(&decompiled).expect("Bytes cannot be written");
+        let _ = file.write(&decompiled).expect("Bytes cannot be written");
     }
 }
 

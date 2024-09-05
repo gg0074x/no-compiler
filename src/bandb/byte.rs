@@ -13,7 +13,14 @@ impl Byte {
     pub fn from_str(str: &str) -> Self {
         let mut vec: Vec<u8> = vec![];
         for b in str.bytes() {
-            vec.push(u8::try_from((b as char).to_digit(10).expect("Cannot convert vec to digit")).expect("Cannot cast u32 to u8"));
+            vec.push(
+                u8::try_from(
+                    (b as char)
+                        .to_digit(10)
+                        .expect("Cannot convert vec to digit"),
+                )
+                .expect("Cannot cast u32 to u8"),
+            );
         }
         let byte = convert_vec_to_u8(&vec);
         Byte { value: byte }
