@@ -1,0 +1,4 @@
+(high_voltage_electrical_signal_represented_as_a_binary_number) @number
+(low_voltage_electrical_signal_represented_as_a_binary_number) @constant
+
+(non_electrical_signal_represented_as_a_binary_number) @comment

@@ -1,0 +1,52 @@
+[
+  {
+    "type": "electrical_signal_represented_as_a_binary_number",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "high_voltage_electrical_signal_represented_as_a_binary_number",
+          "named": true
+        },
+        {
+          "type": "low_voltage_electrical_signal_represented_as_a_binary_number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "electrical_signal_represented_as_a_binary_number",
+          "named": true
+        },
+        {
+          "type": "non_electrical_signal_represented_as_a_binary_number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "high_voltage_electrical_signal_represented_as_a_binary_number",
+    "named": true
+  },
+  {
+    "type": "low_voltage_electrical_signal_represented_as_a_binary_number",
+    "named": true
+  },
+  {
+    "type": "non_electrical_signal_represented_as_a_binary_number",
+    "named": true
+  }
+]
