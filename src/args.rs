@@ -29,4 +29,6 @@ pub enum Commands {
         #[arg(value_name = "FILE PATH", index = 1)]
         files: Vec<PathBuf>,
     },
+    /// Run LSP in stdio mode
+    Lsp,
 }

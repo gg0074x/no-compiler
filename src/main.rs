@@ -15,7 +15,8 @@ use byte::Byte;
 
 use clap::Parser;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let args: Args = Args::parse();
 
     let format = args.format.as_deref().unwrap_or("out");
@@ -23,6 +24,7 @@ fn main() {
     match args.cmd {
         Commands::Compile { files } => compile(&files, format),
         Commands::Decompile { files } => decompile(&files, format),
+        Commands::Lsp => no_compiler_lsp::run().await
     }
 }
 
