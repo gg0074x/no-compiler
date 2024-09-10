@@ -1,0 +1,11 @@
+[package]
+name = "no-compiler-lsp"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde_json = "1.0.128"
+tokio = { version = "1.40.0", features = ["full"] }
+tower = { version = "0.5.0", features = ["tokio", "util"] }
+tower-lsp = "0.20.0"
+tracing-subscriber = "0.3.18"

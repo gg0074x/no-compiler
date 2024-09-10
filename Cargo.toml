@@ -19,12 +19,18 @@ name = "noc"
 path = "./src/main.rs"
 
 [dependencies]
+no-compiler-lsp = { path = "./crates/lsp" }
+
 clap = { version = "4.5.16", features = ["derive"] }
+tokio = { version = "1.40.0", features = ["full"] }
 
 # The profile that 'cargo dist' will build with
 [profile.dist]
 inherits = "release"
 lto = "thin"
+
+[workspace]
+members = ["crates/lsp"]
 
 # Config for 'cargo dist'
 [workspace.metadata.dist]
