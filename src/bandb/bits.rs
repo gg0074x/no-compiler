@@ -1,5 +1,4 @@
 use std::{num::TryFromIntError, str::FromStr};
-
 use thiserror::Error;
 
 pub struct Bits {
