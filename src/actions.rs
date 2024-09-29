@@ -45,8 +45,8 @@ pub fn compile(paths: &[PathBuf], format: &str) -> Result<(), CompilerError> {
         let code = read_to_string(path)
             .map_err(CompilerError::FileRead)?;
 
-        file.set_file_name(file_name);
-        file.set_file_name(format);
+        file.push(file_name);
+        file.set_extension(format);
 
         let mut file = File::create(file)
             .map_err(CompilerError::OutputCreation)?;
@@ -78,8 +78,8 @@ pub fn decompile(paths: &[PathBuf], format: &str) -> Result<(), CompilerError> {
         let code = read(path)
             .map_err(CompilerError::FileRead)?;
 
-        file.set_file_name(file_name);
-        file.set_file_name(format);
+        file.push(file_name);
+        file.set_extension(format);
 
         let mut file = File::create(file)
             .map_err(CompilerError::OutputCreation)?;
