@@ -14,7 +14,7 @@ pub enum ByteConversionError {
     #[error("Cannot downcast value to u8")]
     Cast(#[from] TryFromIntError),
 
-    #[error("{0:?}")]
+    #[error("{0:#}")]
     Creation(#[from] ByteCreationError)
 }
 

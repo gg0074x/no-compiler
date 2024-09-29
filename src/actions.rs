@@ -4,26 +4,33 @@ use crate::bandb::{bits::Bits, byte::{Byte, ByteCreationError}};
 
 #[derive(Debug, Error)]
 pub enum CompilerError {
-    #[error("Error geting current path: {0:?}")]
+    #[error("Error geting current path: {0:#}")]
     CurrentPath(IoError),
 
     #[error("Path is not a file")]
     StemRetrieval,
 
-    #[error("Error reading file: {0:?}")]
+    #[error("Error reading file: {0:#}")]
     FileRead(IoError),
 
-    #[error("Error creating output file: {0:?}")]
+    #[error("Error creating output file: {0:#}")]
     OutputCreation(IoError),
 
-    #[error("Error writing output file: {0:?}")]
+    #[error("Error writing output file: {0:#}")]
     WriteOutput(IoError),
 
-    #[error("{0:?}")]
-    MakeBytes(#[from] MakeBytesError)
+    #[error("{0:#}")]
+    MakeBytes(#[from] MakeBytesError),
+
+    #[error("No paths specified")]
+    NoInput
 }
 
 pub fn compile(paths: &[PathBuf], format: &str) -> Result<(), CompilerError> {
+    if paths.is_empty() {
+        return Err(CompilerError::NoInput);
+    }
+
     let curr_dir = current_dir()
         .map_err(CompilerError::CurrentPath)?;
 
@@ -53,6 +60,10 @@ pub fn compile(paths: &[PathBuf], format: &str) -> Result<(), CompilerError> {
 }
 
 pub fn decompile(paths: &[PathBuf], format: &str) -> Result<(), CompilerError> {
+    if paths.is_empty() {
+        return Err(CompilerError::NoInput);
+    }
+
     let curr_dir = current_dir()
         .map_err(CompilerError::CurrentPath)?;
 
@@ -93,10 +104,10 @@ pub fn decompile(paths: &[PathBuf], format: &str) -> Result<(), CompilerError> {
 
 #[derive(Debug, Error)]
 pub enum MakeBytesError {
-    #[error("{0:?}")]
+    #[error("{0:#}")]
     ByteCreation(#[from] ByteCreationError),
 
-    #[error("{0:?}")]
+    #[error("{0:#}")]
     Cast(#[from] TryFromIntError),
 
     #[error("Error converting value to digit")]

@@ -29,7 +29,7 @@ async fn main() -> ExitCode {
     match result {
         Ok(_) => ExitCode::SUCCESS,
         Err(err) => {
-            eprintln!("Error running {err:?}, exiting.");
+            eprintln!("\x1B[31mError running. {err:#}, exiting.\x1B[0m");
             ExitCode::FAILURE
         }
     }
