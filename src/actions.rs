@@ -1,6 +1,6 @@
 use std::{env::current_dir, fs::{read, read_to_string, File}, io::{Error as IoError, Write}, num::TryFromIntError, path::PathBuf};
 use thiserror::Error;
-use crate::bandb::{bits::Bits, byte::{Byte, ByteCreationError}};
+use crate::structures::{bits::Bits, byte::{Byte, ByteCreationError}};
 
 #[derive(Debug, Error)]
 pub enum CompilerError {
@@ -128,7 +128,7 @@ fn make_bytes(code: &str) -> Result<Vec<u8>, MakeBytesError> {
         if buff_index == 8 {
             bytes.push(
                 Byte::from_bits(
-                    &Bits::from_iter(&buff)
+                    &Bits::from_iter(buff)
                 )?
                     .value()
                     .to_owned()

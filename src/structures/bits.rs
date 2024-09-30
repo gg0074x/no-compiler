@@ -15,12 +15,14 @@ pub enum BitsConversionError {
 }
 
 impl Bits {
-    pub fn from_iter(bits: &[u8]) -> Self {
-        Bits { value: bits.into() }
-    }
-
     pub fn value(&self) -> &Vec<u8> {
         &self.value
+    }
+}
+
+impl FromIterator<u8> for Bits {
+    fn from_iter<I: IntoIterator<Item = u8>>(bits: I) -> Self {
+        Bits { value: Vec::from_iter(bits) }
     }
 }
 

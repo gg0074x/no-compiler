@@ -5,8 +5,9 @@ use tokio::main;
 use std::process::ExitCode;
 
 mod args;
-mod bandb;
+mod structures;
 mod actions;
+mod traits;
 
 #[main]
 async fn main() -> ExitCode {
