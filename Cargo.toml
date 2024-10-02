@@ -23,6 +23,7 @@ no-compiler-lsp = { path = "./crates/lsp" }
 
 clap = { version = "4.5.16", features = ["derive"] }
 tokio = { version = "1.40.0", features = ["full"] }
+thiserror = "1.0.64"
 
 # The profile that 'cargo dist' will build with
 [profile.dist]

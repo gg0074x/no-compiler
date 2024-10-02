@@ -15,20 +15,22 @@ pub struct Args {
 
 #[derive(Debug, Subcommand)]
 pub enum Commands {
-    /// Subcommand to compile
+    /// Compile files into actual binary.
     #[clap(alias = "build")]
     Compile {
-        /// Input files to compile
+        /// Input files to compile.
         #[arg(value_name = "FILE PATH", index = 1)]
         files: Vec<PathBuf>,
     },
-    /// Subcommand to decompile
+
+    /// Decompile files into readable binary.
     #[clap(alias = "decomp")]
     Decompile {
-        /// Input files to decompile
+        /// Input files to decompile.
         #[arg(value_name = "FILE PATH", index = 1)]
         files: Vec<PathBuf>,
     },
-    /// Run LSP in stdio mode
+
+    /// Start a LSP within the program STDIO.
     Lsp,
 }

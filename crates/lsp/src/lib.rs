@@ -1,5 +1,3 @@
-use std::io::Read;
-
 use tower_lsp::jsonrpc::Result;
 use tower_lsp::lsp_types::*;
 use tower_lsp::{LanguageServer, LspService, Server};
@@ -20,8 +18,7 @@ impl LanguageServer for Backend {
                     ..Default::default()
                 }),
                 ..ServerCapabilities::default()
-            },
-            ..Default::default()
+            }
         })
     }
 
@@ -65,7 +62,7 @@ pub async fn run() {
     tracing_subscriber::fmt().init();
 
     let (stdin, stdout) = (tokio::io::stdin(), tokio::io::stdout());
-
     let (service, socket) = LspService::new(|_| Backend);
+
     Server::new(stdin, stdout, socket).serve(service).await;
 }
